@@ -1,0 +1,15 @@
+{
+  "name": "fonts",
+  "version": "0.0.0",
+  "description": "Helps my mom print fonts from Google Fonts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chris Barrick <cbarrick1@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "ender": "^2.0.5",
+    "jeesh": "^0.0.6"
+  },
+  "private": true
+}

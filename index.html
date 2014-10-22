@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Print Fonts</title>
+		<link id='fonts' rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Roboto'>
+		<script src='ender.js'></script>
+		<style>
+			.letter {
+				float: left;
+				margin: 0.1em;
+				text-align: center;
+			}
+			#controls, #sample {
+				font: 16px sans-serif;
+			}
+			#instructions {
+				width: 45%;
+				float: right;
+			}
+			#instructions li {
+				margin: 0.5em;
+			}
+			#print-button {
+				width: 100%;
+				margin-top: 8px;
+				font-size: 1.5em;
+				clear: both;
+			}
+			label {
+				display: block;
+				width: 100%;
+				margin: 1em 1em 2.5em;
+			}
+			label input, label select {
+				display: block;
+				width: 45%;
+			}
+			@media print {
+				#controls, #sample {
+					display: none;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<fieldset id='controls'>
+			<section id='instructions'>
+				<ol>
+					<li>Create a font collection at <a href="http://google.com/fonts">Google Fonts</a></li>
+					<li>Copy the code for your collection into "Google Fonts code"</li>
+					<li>Select the font and size you wish to print</li>
+					<li>Click Print</li>
+				</ol>
+				<small>*The code can be found by clicking <strong>Use</strong> in Google Fonts and looking under the label <strong>Add this code to your website</strong></small>
+			</section>
+			<label for='code-input'>
+				Google Fonts code:
+				<input id='code-input' type='text' placeholder="<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>">
+			</label>
+			<label for='font-select'>
+				Font:
+				<select id='font-select'></select>
+			</label>
+			<label for='size-input'>
+				Size (inches):
+				<input id='size-input' type='number' min='0.5' max='10' value='2' step='0.1'>
+			</label>
+			<button id='print-button'>Print</button>
+		</fieldset>
+		<p id='sample'>Grumpy wizards make toxic brew for the evil Queen and Jack.</p>
+		<p class='letter'>Aa</p>
+		<p class='letter'>Bb</p>
+		<p class='letter'>Cc</p>
+		<p class='letter'>Dd</p>
+		<p class='letter'>Ee</p>
+		<p class='letter'>Ff</p>
+		<p class='letter'>Gg</p>
+		<p class='letter'>Hh</p>
+		<p class='letter'>Ii</p>
+		<p class='letter'>Jj</p>
+		<p class='letter'>Kk</p>
+		<p class='letter'>Ll</p>
+		<p class='letter'>Mm</p>
+		<p class='letter'>Nn</p>
+		<p class='letter'>Oo</p>
+		<p class='letter'>Pp</p>
+		<p class='letter'>Qq</p>
+		<p class='letter'>Rr</p>
+		<p class='letter'>Ss</p>
+		<p class='letter'>Tt</p>
+		<p class='letter'>Uu</p>
+		<p class='letter'>Vv</p>
+		<p class='letter'>Ww</p>
+		<p class='letter'>Xx</p>
+		<p class='letter'>Yy</p>
+		<p class='letter'>Zz</p>
+		<script>
+			'use-strict';
+
+			var font_url_format = /http:\/\/fonts.googleapis.com\/css\?family=([A-Za-z0-9+:,]+(\|[A-Za-z+]+)*)/;
+
+			var $font_link = $('#fonts');
+			var $body = $('body');
+			var $code_input = $('#code-input');
+			var $font_select = $('#font-select');
+			var $size_input = $('#size-input');
+			var $print_button = $('#print-button');
+
+			var roboto_url = "http://fonts.googleapis.com/css?family=Roboto";
+
+			// `fonts` is a mapping from font names to font objects:
+			//     - name (String): name of the font
+			//     - weight (Number): the weight of the font
+			//     - italic (Boolean): if the font is italic
+			var fonts;
+
+			function fetch_fonts () {
+
+				// Parse the Google Fonts url out of the input
+				var font_link_string = $code_input.val();
+				var font_link_match = font_url_format.exec(font_link_string)
+				                      || font_url_format.exec(roboto_url);
+				var url    = font_link_match[0]
+
+				// Setup the fonts map
+				fonts = {};
+				font_link_match[1]
+					.split('+').join(' ') // replace all '+' with ' '
+					.split('|')
+					.forEach(function (spec) {
+						var i = spec.indexOf(':');
+
+						if (i < 0) {
+							var font_title = spec + ' 400';
+							fonts[font_title] = {family:spec, weight:400, italic:false};
+
+						} else {
+							var family = spec.substring(0,i);
+							var style_string = spec.substring(i+1);
+							var styles = style_string.split(',');
+							styles.forEach(function (style) {
+								var match = /([1-9]00)(italic)?/.exec(style);
+								var weight = Number(match[1]);
+								var italic = Boolean(match[2]);
+								var font_title = family + ' '
+										+ weight
+										+ ((italic) ? ' italic' : '');
+								fonts[font_title] = {
+									family:family,
+									weight:Number(match[1]),
+									italic:Boolean(match[2])
+								};
+							})
+						}
+					});
+
+				// Update the fonts stylesheet to use the new fonts
+				$font_link.attr('href', url);
+				console.log("Loaded fonts:", fonts.toString());
+
+				// Setup the font-select with the proper choices
+				$font_select.html('');
+				for (font_title in fonts) {
+					$('<option>' + font_title + '</option>').appendTo($font_select);
+				}
+				$font_select.emit('change');
+			}
+
+			function set_font () {
+				var size = $size_input.val();
+				if (size < 0.5) {
+					size = 0.5;
+				}
+				var font_title = $font_select.val();
+				var font = fonts[font_title];
+				var font_css = (font.italic ? 'italic ' : '')
+				             + font.weight + ' '
+				             + size + 'in '
+				             + font.family;
+				$body.css('font', font_css);
+				console.log("Set font:", font_css);
+			}
+
+			$code_input.on('input', fetch_fonts);
+			$font_select.on('change', set_font);
+			$size_input.on('input', set_font);
+			$print_button.on('click', window.print.bind(window));
+
+			fetch_fonts();
+			set_font();
+		</script>
+	</body>
+</html>
