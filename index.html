@@ -5,13 +5,15 @@
 		<link id='fonts' rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Roboto'>
 		<script src='ender.js'></script>
 		<style>
-			.letter {
-				float: left;
+			#sample {
 				margin: 0.1em;
 				text-align: center;
 			}
-			#controls, #sample {
+			#controls {
 				font: 16px sans-serif;
+			}
+			#mini-sample {
+				font-size: 16px;
 			}
 			#instructions {
 				width: 45%;
@@ -36,7 +38,7 @@
 				width: 45%;
 			}
 			@media print {
-				#controls, #sample {
+				#controls, #mini-sample {
 					display: none;
 				}
 			}
@@ -67,33 +69,8 @@
 			</label>
 			<button id='print-button'>Print</button>
 		</fieldset>
-		<p id='sample'>Grumpy wizards make toxic brew for the evil Queen and Jack.</p>
-		<p class='letter'>Aa</p>
-		<p class='letter'>Bb</p>
-		<p class='letter'>Cc</p>
-		<p class='letter'>Dd</p>
-		<p class='letter'>Ee</p>
-		<p class='letter'>Ff</p>
-		<p class='letter'>Gg</p>
-		<p class='letter'>Hh</p>
-		<p class='letter'>Ii</p>
-		<p class='letter'>Jj</p>
-		<p class='letter'>Kk</p>
-		<p class='letter'>Ll</p>
-		<p class='letter'>Mm</p>
-		<p class='letter'>Nn</p>
-		<p class='letter'>Oo</p>
-		<p class='letter'>Pp</p>
-		<p class='letter'>Qq</p>
-		<p class='letter'>Rr</p>
-		<p class='letter'>Ss</p>
-		<p class='letter'>Tt</p>
-		<p class='letter'>Uu</p>
-		<p class='letter'>Vv</p>
-		<p class='letter'>Ww</p>
-		<p class='letter'>Xx</p>
-		<p class='letter'>Yy</p>
-		<p class='letter'>Zz</p>
+		<p id='mini-sample'>Grumpy wizards make toxic brew for the evil Queen and Jack.</p>
+		<p contenteditable id='sample'>Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz</p>
 		<script>
 			'use-strict';
 
