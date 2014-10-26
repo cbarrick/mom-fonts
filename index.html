@@ -2,19 +2,119 @@
 <html>
 	<head>
 		<title>Print Fonts</title>
+		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 		<link id='fonts' rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Roboto'>
 		<script src='ender.js'></script>
 		<style>
-			#sample {
-				margin: 0.1em;
-				text-align: center;
+			* {
+				box-sizing: border-box;
+				margin: 0;
 			}
-			#controls {
-				font: 16px sans-serif;
-			}
-			#mini-sample {
+
+			body {
 				font-size: 16px;
+				background-color: #f5f5f5;
 			}
+
+			label {
+				display: block;
+				position: relative;
+				margin-bottom: 16px;
+				height: 50px;
+				font-size: 12px;
+			}
+			label > input,
+			label > select {
+				display: block;
+				position: absolute;
+				top: 18px;
+				border: none;
+				border-bottom: 1px solid rgba(255, 255, 255, 1);
+				border-radius: 0;
+				width: 100%;
+				font-size: 16px;
+				color: white;
+				background-color: transparent;
+				-webkit-appearance: none;
+				   -moz-appearance: none;
+				        appearance: none;
+			}
+
+			select {
+				cursor: pointer;
+			}
+
+			a {
+				color: #03a9f4;
+			}
+
+			button {
+				min-width: 88px;
+				height: 36px;
+				color: inherit;
+				background-color: transparent;
+				border: none;
+				border-radius: 3px;
+				cursor: pointer;
+			}
+			button:hover {
+				background-color: rgba(204, 204, 204, 0.15);
+			}
+			button:active {
+				background-color: rgba(204, 204, 204, 0.25);
+			}
+
+			header {
+				margin-bottom: 1em;
+				padding: 1em;
+				width: 100%;
+				font: 16px Roboto;
+				border: none;
+				background-color: #3f51b5;
+				color: rgba(255, 255, 255, 0.87);
+				box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.4);
+			}
+
+			.card {
+				padding: 16px;
+				border: 1px solid rgba(0, 0, 0, 0.12);
+				margin: 8px;
+				width: calc(100% - 16px);
+				border-radius: 2px;
+				text-align: center;
+				color: rgba(0, 0, 0, 0.87);
+				background-color: white;
+				box-shadow: 2px 2px 8px -2px rgba(0, 0, 0, 0.4);
+			}
+
+			.pull-left {
+				float: left;
+			}
+			.pull-right {
+				float: right;
+			}
+
+			/* clearfix */
+			.cf:before,
+			.cf:after {
+				content: " "; /* 1 */
+				display: table; /* 2 */
+			}
+			.cf:after {
+				clear: both;
+			}
+
+
+			#title {
+				width: 100%;
+				margin: 1em;
+				font-size: 3em;
+			}
+
+			#controls {
+				width: 50%;
+			}
+
 			#instructions {
 				width: 45%;
 				float: right;
@@ -22,55 +122,86 @@
 			#instructions li {
 				margin: 0.5em;
 			}
+
 			#print-button {
-				width: 100%;
-				margin-top: 8px;
+				padding: 0 4em;
+				margin: 1em;
+				width: calc(100% - 2em);
+				height: 32px;
 				font-size: 1.5em;
 				clear: both;
 			}
-			label {
-				display: block;
-				width: 100%;
-				margin: 1em 1em 2.5em;
+
+			#bigger-button,
+			#smaller-button {
+				font-size: 1.5em;
+				font-weight: bold;
 			}
-			label input, label select {
-				display: block;
-				width: 45%;
-			}
+
+
 			@media print {
-				#controls, #mini-sample {
+				html {
+					background-color: white;
+				}
+				body * {
 					display: none;
+				}
+				main {display: block}
+				#sample-card {
+					display: block;
+					padding: 0;
+					border: none;
+					margin: 0;
+					box-shadow: none;
+				}
+				#sample {
+					display: block;
 				}
 			}
 		</style>
 	</head>
 	<body>
-		<fieldset id='controls'>
+		<header class='cf'>
+			<h1 id='title'>Font Printer</h1>
 			<section id='instructions'>
 				<ol>
 					<li>Create a font collection at <a target='_blank' href='http://google.com/fonts'>Google Fonts</a></li>
-					<li>Copy the code for your collection into "Google Fonts code"</li>
-					<li>Select the font and size you wish to print</li>
+					<li>Find the code for your collection*</li>
+					<li>Copy the code into "Google Fonts code"</li>
+					<li>Select your desired font and size</li>
 					<li>Click Print</li>
 				</ol>
 				<small>*The code can be found by clicking <strong>Use</strong> in Google Fonts and looking under the label "<strong>Add this code to your website</strong>"</small>
+				<button id='print-button'>Print</button>
 			</section>
-			<label for='code-input'>
-				Google Fonts code:
-				<input id='code-input' type='text' placeholder="<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>">
-			</label>
-			<label for='font-select'>
-				Font:
-				<select id='font-select'></select>
-			</label>
-			<label for='size-input'>
-				Size (inches):
-				<input id='size-input' type='number' min='0.5' max='10' value='2' step='0.1'>
-			</label>
-			<button id='print-button'>Print</button>
-		</fieldset>
-		<p id='mini-sample'>Grumpy wizards make toxic brew for the evil Queen and Jack.</p>
-		<p contenteditable id='sample'>Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz</p>
+			<div id='controls'>
+				<label for='code-input'>
+					Google Fonts code:
+					<input id='code-input' type='text' placeholder="e.g. <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>">
+				</label>
+				<label for='font-select'>
+					Font:
+					<select id='font-select'></select>
+				</label>
+				<label for='size-input'>
+					Size (inches):
+					<input id='size-input' type='number' min='0.5' max='10' value='2' step='0.1'>
+				</label>
+				<button id='smaller-button' class='pull-left'>-</button>
+				<button id='bigger-button' class='pull-right'>+</button>
+			</div>
+		</header>
+
+		<main>
+			<section id='mini-sample-card' class='card'>
+				<p contenteditable id='mini-sample'>Grumpy wizards make toxic brew for the evil Queen and Jack.</p>
+			</section>
+
+			<section id='sample-card' class='card' title='Click to edit'>
+				<p contenteditable id='sample'>Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz</p>
+			</section>
+		</main>
+
 		<script>
 			'use-strict';
 
@@ -82,11 +213,14 @@
 
 			// HTMLElements that will be used.
 			var $font_link = $('#fonts');
-			var $body = $('body');
+			var $main = $('main');
+			var $sample = $('#sample');
 			var $code_input = $('#code-input');
 			var $font_select = $('#font-select');
 			var $size_input = $('#size-input');
-			var $print_button = $('#print-button');
+			var $print_btn = $('#print-button');
+			var $smaller_btn = $('#smaller-button');
+			var $bigger_btn = $('#bigger-button');
 
 			// The default url is for the Roboto font.
 			var roboto_url = "http://fonts.googleapis.com/css?family=Roboto";
@@ -183,12 +317,13 @@
 				}
 				var font_title = $font_select.val();
 				var font = fonts[font_title];
-				var font_css = (font.italic ? 'italic ' : '')
-				             + font.weight + ' '
-				             + size + 'in '
-				             + font.family;
-				$body.css('font', font_css);
-				console.log("Set font:", font_css);
+				$main.css('font-family', font.family);
+				$main.css('font-weight', font.weight);
+				$main.css('font-style', (font.italic) ? 'italic' : 'normal');
+
+				$sample.css('font-size', size + 'in');
+
+				console.log("Set font:", font_title);
 			}
 
 
@@ -197,8 +332,38 @@
 
 			$code_input.on('input', fetch_fonts);
 			$font_select.on('change', set_font);
-			$size_input.on('input', set_font);
-			$print_button.on('click', window.print.bind(window));
+			$size_input.on('change', set_font);
+			$print_btn.on('click', window.print.bind(window));
+
+			$smaller_btn.on('click', function () {
+				var step = Number($size_input.attr('step'));
+				var exp = 1/step;
+				var min = $size_input.attr('min');
+				var value = Number($size_input.attr('value'));
+
+				// this magic changes than rounds the value so we don't
+				// get ugly floating-point rounding errors
+				value -= step;
+				value = Number(Math.round(value + 'e' + exp) + 'e-' + exp);
+
+				if (value >= min) $size_input.attr('value', value);
+				$size_input.emit('change');
+			});
+
+			$bigger_btn.on('click', function () {
+				var step = Number($size_input.attr('step'));
+				var exp = 1/step;
+				var max = $size_input.attr('max');
+				var value = Number($size_input.attr('value'));
+
+				// this magic changes than rounds the value so we don't
+				// get ugly floating-point rounding errors
+				value += step;
+				value = Number(Math.round(value + 'e' + exp) + 'e-' + exp);
+
+				if (value <= max) $size_input.attr('value', value);
+				$size_input.emit('change');
+			});
 
 
 			// Initialization
